@@ -1,8 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="Application.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
+
+<GridPane alignment="center" hgap="10" prefHeight="646.0" prefWidth="772.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.Controller">
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <children>
+      <Pane prefHeight="800.0" prefWidth="800.0">
+         <children>
+            <Text layoutX="263.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto Campers System">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="4.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" width="252.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="4.0" layoutX="506.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="269.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="35.0" layoutY="610.0" stroke="BLACK" strokeType="INSIDE" width="772.0" />
+            <MenuButton layoutX="32.0" layoutY="149.0" mnemonicParsing="false" text="Start Week">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+            <MenuButton layoutX="158.0" layoutY="149.0" mnemonicParsing="false" text="End Week">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+            <ListView layoutX="32.0" layoutY="191.0" prefHeight="125.0" prefWidth="233.0" />
+            <Button layoutX="31.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Search" />
+            <Label layoutX="50.0" layoutY="108.0" text="Search for Avaliable Campers" />
+            <Button layoutX="161.0" layoutY="325.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Select" />
+            <Label layoutX="512.0" layoutY="108.0" text="Log In" />
+            <TextArea layoutX="506.0" layoutY="141.0" prefHeight="31.0" prefWidth="200.0" text="Telephon Number" />
+            <Label layoutX="32.0" layoutY="395.0" text="Select Class" />
+            <MenuButton layoutX="29.0" layoutY="424.0" mnemonicParsing="false" text="Class's">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+            <Label layoutX="158.0" layoutY="395.0" text="Select insurance" />
+            <MenuButton layoutX="159.0" layoutY="424.0" mnemonicParsing="false" text="insurance">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
+            </MenuButton>
+            <Label layoutX="31.0" layoutY="493.0" text="Total price" />
+            <Label layoutX="114.0" layoutY="493.0" text="0 Kr" />
+         </children></Pane>
+   </children>
 </GridPane>
