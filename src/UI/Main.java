@@ -16,7 +16,6 @@ public class Main extends Application {
         //just for test3
     }
 
-
     public static void main(String[] args) {
         launch(args);
     }
