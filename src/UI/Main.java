@@ -13,7 +13,7 @@ public class Main extends Application {
         primaryStage.setTitle("Auto Camper System");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        //just for test2
+        //just for test3
     }
 
 
