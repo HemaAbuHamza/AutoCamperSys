@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="center" hgap="10" prefHeight="646.0" prefWidth="772.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Application.Controller">
+   <children>
+      <Pane prefHeight="800.0" prefWidth="800.0">
+         <children>
+            <Text layoutX="263.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto Campers System">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="4.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" width="252.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="4.0" layoutX="506.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" width="269.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="35.0" layoutY="610.0" stroke="BLACK" strokeType="INSIDE" width="772.0" />
+            <Label layoutX="56.0" layoutY="122.0" text="Name" />
+            <TextArea layoutX="50.0" layoutY="150.0" prefHeight="31.0" prefWidth="142.0" />
+            <ImageView fitHeight="251.0" fitWidth="415.0" layoutX="392.0" layoutY="369.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@camperImg.jpg" />
+               </image>
+            </ImageView>
+            <Label layoutX="57.0" layoutY="207.0" text="Street" />
+            <Label layoutX="57.0" layoutY="280.0" text="ZipCode" />
+            <Label layoutX="56.0" layoutY="359.0" text="PhoneNo" />
+            <Label layoutX="56.0" layoutY="430.0" text="Email" />
+            <Label layoutX="56.0" layoutY="498.0" text="Resdience" />
+            <Label layoutX="278.0" layoutY="122.0" text="Date Of Birth" />
+            <Label layoutX="278.0" layoutY="207.0" text="Dr Number" />
+            <Label layoutX="278.0" layoutY="280.0" text="Username" />
+            <Label layoutX="278.0" layoutY="359.0" text="Password" />
+            <TextArea layoutX="50.0" layoutY="230.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="54.0" layoutY="308.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="54.0" layoutY="388.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="54.0" layoutY="455.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="55.0" layoutY="522.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="274.0" layoutY="150.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="274.0" layoutY="230.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="274.0" layoutY="308.0" prefHeight="31.0" prefWidth="142.0" />
+            <TextArea layoutX="274.0" layoutY="388.0" prefHeight="31.0" prefWidth="142.0" />
+            <Button layoutX="308.0" layoutY="451.0" mnemonicParsing="false" text="Create" />
+         </children>
+      </Pane>
+   </children>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
