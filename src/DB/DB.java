@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 
 public class DB {
 
-    public static void main(String[] args) {
+    public static void connectDB() {
         try{
         // (1) load the driver into memory
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -29,6 +29,10 @@ public class DB {
             e.printStackTrace();
             }
     }
+
+
 }
+
+
 
 
