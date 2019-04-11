@@ -64,4 +64,54 @@ public class Controller {
         }
     }
 
+    /*
+
+    (1)//Check if username input is in the DB
+        do {
+            String data = DB.getData();
+
+            if (data.equals(checkUsername)) {
+                System.out.println("* Welcome " + checkUsername + " **");
+                break;
+            } else {
+                System.out.println("User not found");
+                break;
+            }
+        } while (true);
+
+
+        (2)// Insert into DB
+
+        String sql = "INSERT INTO tblCustomer VALUES('" + fldAddress + "'," + fldZipCode + ",'" + fldName + "'," + fldNumber + ",'" + fldEmail + "',0,0,0,0,'" + fldOwnerType + "')";
+
+        // Execute when we press CREATE BUTTON
+        public void handleCreateCustomer(ActionEvent event) throws Exception {
+            DB.insertSQL(sql);
+            DB.insertSQL(paymentInsert);
+        }
+
+
+        (3)//Updates the DB with the new payment value
+        DB.updateSQL("UPDATE tblName SET fldName = " + waterNew + " WHERE fldAddress = '" + address + "'");
+
+        (4)//Search for only specific values that has a zipcode, that the user inputs
+        System.out.println("Type in the zipcode where you want to know the water consumption");
+        int zipChoice = in.nextInt();
+        int allWater = 0;
+        int data1 = 0;
+        DB.selectSQL("SELECT fldOldWaterValue FROM tblCustomer WHERE fldZipCode = " + zipChoice + "");
+        do {
+            String data = DB.getData();
+            if (data.equals(DB.NOMOREDATA)) {
+                break;
+            } else {
+                //Adds together all information from only ones listed with zipcode
+                data1 = Integer.parseInt(data);
+                allWater = allWater + data1;
+            }
+        } while (true);
+        System.out.printf("The sum of the water consumption in zipcode %d is: ", zipChoice);
+        System.out.println(allWater);
+     */
+
 }
