@@ -27,8 +27,11 @@ public class Main extends Application {
         //test.testMethod();
 
         //Calling DB package
-        //DB connect = new DB();
-        //DB.connectDB();
+        //DB selectEmail = new DB();
+        //selectEmail.connectDB("Select * from tblUsers","fldEmail","nils@easv.dk                  ");
+
+        //DB selectPassword = new DB();
+        //selectPassword.connectDB("Select * from tblUsers" , "fldPassHash");
 
         launch(args);
     }
