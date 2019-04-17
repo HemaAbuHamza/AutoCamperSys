@@ -20,6 +20,17 @@ public class Controller {
     TextArea username;
     @FXML
     TextArea password;
+    @FXML  TextArea name;
+    @FXML TextArea street;
+    @FXML TextArea zipcode;
+    @FXML TextArea phone;
+    @FXML TextArea email;
+    @FXML TextArea resdience;
+    @FXML TextArea birth;
+    @FXML TextArea drNum;
+    @FXML TextArea pass;
+
+
 
     public boolean checkLogin(boolean doneLogin) {
 
@@ -45,27 +56,23 @@ public class Controller {
                     else System.out.println("Access Deni , wrong password");
                 }
             }
-
-
             // (5) close the statement & connection
             rs.close();
             stmt.close();
             con.close();
-
             // (6) Done
             System.out.println("Execute Done ");
         }
         catch(Exception e){
             e.printStackTrace();
         }
-
         return false;
     }
 
     //Handel the login button , search for match customer email address and password
     public void handleSignLogin(ActionEvent event) throws Exception {
         if (checkLogin(true)){
-            System.out.println("new window ");
+            System.out.println("new window");
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/UI/sample.fxml"));
                 Parent root = (Parent) fxmlLoader.load();
@@ -76,9 +83,10 @@ public class Controller {
                 e.printStackTrace();
             }
         }
-        else System.out.println("no window ");
+        else System.out.println("no window");
     }
 
+    //Handel the procedures to Create Customers informations
     public void handleSignUP(ActionEvent event) throws Exception {
 
         try {
@@ -92,8 +100,42 @@ public class Controller {
         }
     }
 
+    public void handelCreate(ActionEvent actionEvent) {
+        try {
+            // (1) load the driver into memory
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            // (2) establish Connection
+            Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=dbCampersRental", "sa", "123456");
+            // (3) create statement
+            Statement stmt = con.createStatement();
 
+            // (4) execute SQL statement
+            //values
+            String getName = name.getText();
+            String getStreet = street.getText();
+            String getZipcode = zipcode.getText();
+            String getPhone = phone.getText();
+            String getEmail = email.getText();
+            String getPass = pass.getText();
+            String getRes = resdience.getText();
+            String getDrNum = drNum.getText();
+            String getBirth = birth.getText();
+
+            String query1 =  "INSERT INTO tblUsers (fldName, fldStreet, fldZipcode, fldPhoneNo , fldEmail , fldPassHash , fldResidence , fldDrivingLicence ,fldDateOfBirth,fldLoyalty)"
+                    + "VALUES ('"+getName+"','"+getStreet+"','"+getZipcode+"','"+getPhone+"','"+getEmail+"','"+getPass+"','"+getRes+"','"+getDrNum+"','"+getBirth+"','0')";
+
+            stmt.executeUpdate(query1);
+            // (5) close the statement & connection
+            stmt.close();
+            con.close();
+            // (6) Done
+            System.out.println("Done insert to DB" );
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
+}
 
     /*
 

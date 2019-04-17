@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DB {
 
     public static void connectDB(String sqlStatment , String yourSelect ,String Search) {
-
+    /*
         try{
         // (1) load the driver into memory
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -46,7 +46,9 @@ public class DB {
         catch(Exception e){
             e.printStackTrace();
             }
+    */
     }
+
 }
 
 
