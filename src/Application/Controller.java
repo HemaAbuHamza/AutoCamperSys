@@ -1,18 +1,24 @@
 package Application;
 
+import DB.DB;
+import Domain.Campers;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.*;
 import javafx.scene.Parent;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 
 public class Controller {
@@ -29,10 +35,73 @@ public class Controller {
     @FXML TextArea birth;
     @FXML TextArea drNum;
     @FXML TextArea pass;
+    @FXML
+    static TextField startWeek;
+    @FXML
+    static TextField endWeek;
+    @FXML
+    static MenuButton camperClass;
+    @FXML
+    MenuItem setBasic = new MenuItem("Basic");
+    @FXML
+    MenuItem setStandard = new MenuItem("Standard");
+    @FXML
+    MenuItem setLuxury = new MenuItem("Luxury");
+    @FXML
+    TableView searchTable;
+    @FXML
+    TableColumn<Campers,String> typeCol;
+    @FXML
+    TableColumn<Campers,String> brandCol;
+    @FXML
+    TableColumn<Campers, Date> dateCol;
+    @FXML
+    TableColumn<Campers,Integer> millageCol;
 
+    public int userID;
 
+    public static ArrayList<Campers> getCampers(Integer fldCamperPlate, String Type, String Brand, String FactoryDate, Integer Millage) {
+        ArrayList<Campers> returnCampers = new ArrayList<>();
+            startWeek.setText(" ");
+            startWeek.getText();
+            endWeek.getText();
+            StringBuilder builder = new StringBuilder();
+            builder.append("select * from tblCampers " + fldCamperPlate + " where fldCamperPlate not in (Select fldCamperPlate from tblCamperStatus where fldWeek not BETWEEN " + startWeek + " and " + endWeek + ") and fldClass = " + camperClass.getText());
 
-    public boolean checkLogin(boolean doneLogin) {
+            if (fldCamperPlate != null && Type != null && Brand != null && FactoryDate != null && Millage != null) {
+                builder.append("where");
+                if (fldCamperPlate != null) {
+                    builder.append("fldCamperPlate like '%").append(fldCamperPlate).append("%'");
+                }
+                if (Type != null) {
+                    builder.append("fldCamperType like '%").append(Type).append("%'");
+                }
+                if (Brand != null) {
+                    builder.append("fldBrand like '%").append(Brand).append("%'");
+                }
+                if (FactoryDate != null) {
+                    builder.append("fldFactoryDate like '%").append(FactoryDate).append("%'");
+                }
+                if (Millage != null) {
+                    builder.append("fldFactoryMillage like '%").append(Millage).append("%'");
+                }
+                builder.delete(builder.length() - 5, builder.length() - 1);
+            }
+            ArrayList<Object[]> camperQuery = DB.select(builder.toString());
+            for (Object[] objects : camperQuery) {
+                if (returnCampers == null) {
+                    int camperPlate = (int) objects[0];
+                    String camperType = (String) objects[1];
+                    String camperBrand = (String) objects[2];
+                    Date camperDate = (Date) objects[3];
+                    int millage = (int) objects[4];
+
+                }
+            }
+
+        return returnCampers;
+    }
+    public boolean checkLogin (boolean doneLogin) {
 
         try {
             // (1) load the driver into memory
@@ -45,15 +114,18 @@ public class Controller {
             ResultSet rs = stmt.executeQuery("Select * from tblUsers" );
 
             while (rs.next()) {
+
                 String email = rs.getString("fldEmail");
                 if (email.equals(username.getText())) {
                     System.out.println("Email Found in DB " + email);
                     String pass = rs.getString("fldPassHash");
                     if(pass.equals(password.getText())){
                         System.out.println("Password Match the Email...Login Done ");
+                        userID = rs.getInt("fldUserID");
+                        System.out.println(userID);
                         return doneLogin == true;
                     }
-                    else System.out.println("Access Deni , wrong password");
+                    else System.out.println("Access Denied , wrong password");
                 }
             }
             // (5) close the statement & connection
@@ -130,11 +202,57 @@ public class Controller {
             con.close();
             // (6) Done
             System.out.println("Done insert to DB" );
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void initialize() {
+
+            ArrayList<Campers> camperList = new ArrayList<Campers>(getCampers(null, null, null, null, null));
+            ObservableList<Campers> campers = FXCollections.observableArrayList(camperList);
+            typeCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType()));
+            brandCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getBrand()));
+            dateCol.setCellValueFactory(param -> new SimpleObjectProperty(param.getValue().getFactoryDate()));
+            millageCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getMillage()));
+            searchTable.getColumns().setAll(typeCol, brandCol, dateCol, millageCol);
+
+
+    }
+    public void handleSearch (ActionEvent actionEvent){
+
+
+
+
+
+
+    }
+
+    public void handleSelect(ActionEvent event) {
+    }
+
+    public void handleClass(ActionEvent actionEvent) {
+
+        }
+
+    public void handleInsurance(ActionEvent event) {
+    }
+
+    public void handlePay(ActionEvent event) {
+    }
+
+    public void HandleBasic(ActionEvent event) {
+        camperClass.setText(setBasic.getText());
+    }
+
+    public void HandleStandard(ActionEvent event) {
+        camperClass.setText(setStandard.getText());
+    }
+
+    public void HandleLuxury(ActionEvent event) {
+        camperClass.setText(setLuxury.getText());
+    }
+
 }
 
     /*
