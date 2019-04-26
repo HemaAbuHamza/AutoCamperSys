@@ -40,20 +40,20 @@
             <Button fx:id="Select" layoutX="306.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleSelect" prefHeight="30.0" prefWidth="100.0" text="Select" />
             <MenuButton fx:id="camperClass" layoutX="283.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleClass" text="Select Class">
                <items>
-                  <MenuItem fx:id="setBasic" mnemonicParsing="true" onAction="#HandleBasic" text="Basic" />
+                  <MenuItem mnemonicParsing="false" onAction="#HandleBasic" text="Basic" />
                   <MenuItem mnemonicParsing="false" onAction="#HandleStandard" text="Standard" />
-                   <MenuItem mnemonicParsing="false" onAction="#HandleLuxury" text="Luxury" />
+                  <MenuItem mnemonicParsing="false" onAction="#HandleLuxury" text="Luxury" />
                </items>
             </MenuButton>
             <Label layoutX="35.0" layoutY="406.0" text="Select insurance" />
             <MenuButton fx:id="Insurance" layoutX="36.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleInsurance" text="insurance">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Action 1" />
-                  <MenuItem mnemonicParsing="false" text="Action 2" />
+                  <MenuItem mnemonicParsing="false" onAction="#HandleBasicInsurance" text="Basic" />
+                  <MenuItem mnemonicParsing="false" onAction="#HandleExpensiveInsurance" text="superCoverPlus" />
                </items>
             </MenuButton>
             <Label layoutX="31.0" layoutY="493.0" text="Total price" />
-            <Label layoutX="114.0" layoutY="493.0" text="0 Kr" />
+            <Label fx:id="priceLabel" layoutX="114.0" layoutY="493.0" text="0 Kr" />
             <ImageView fitHeight="463.0" fitWidth="548.0" layoutX="424.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@camperImg.jpg" />
@@ -62,10 +62,12 @@
             <Button fx:id="Pay" layoutX="31.0" layoutY="534.0" mnemonicParsing="false" onAction="#handlePay" prefHeight="30.0" prefWidth="100.0" text="Pay" />
             <TextField fx:id="startWeek" layoutX="44.0" layoutY="149.0" prefHeight="25.0" prefWidth="85.0" promptText="Start Week" />
             <TextField fx:id="endWeek" layoutX="158.0" layoutY="149.0" prefHeight="25.0" prefWidth="85.0" promptText="End Week" />
-            <TableView layoutX="44.0" layoutY="179.0" prefHeight="136.0" prefWidth="373.0">
+            <TableView fx:id="searchTable" layoutX="44.0" layoutY="179.0" prefHeight="136.0" prefWidth="373.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
+                <TableColumn prefWidth="75.0" text="Type" />
+                <TableColumn prefWidth="75.0" text="Brand" />
+                 <TableColumn prefWidth="75.0" text="Date" />
+                 <TableColumn prefWidth="75.0" text="Millage" />
               </columns>
             </TableView>
          </children></Pane>

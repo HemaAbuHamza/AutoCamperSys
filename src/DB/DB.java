@@ -62,7 +62,7 @@ public class DB {
     }
     static {
         Properties props = new Properties();
-        String fileName = "src/Database/db.properties";
+        String fileName = "src/DB/db.properties";
         InputStream input;
         try {
             input = new FileInputStream(fileName);
@@ -102,6 +102,23 @@ public class DB {
             cleanUp();
         }
         return returnArrayList;
+    }
+    public static boolean execute(String statement){
+        conn = null;
+        ps = null;
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            ps = conn.prepareStatement(statement);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            cleanUp();
+        }
+        return true;
     }
 
     private static void connect(){

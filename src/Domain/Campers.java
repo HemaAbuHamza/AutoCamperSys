@@ -3,12 +3,12 @@ package Domain;
 import java.sql.Date;
 
 public class Campers {
-    private int camperPlate;
+    private String camperPlate;
     private String type;
     private String brand;
     private Date factoryDate;
-    private int millage;
-    public Campers(Integer CamperPlate, String Type, String Brand, Date FactoryDate, Integer Millage){
+    private Long millage;
+    public Campers(String CamperPlate, String Type, String Brand, Date FactoryDate,Long Millage){
         this.camperPlate = CamperPlate;
         this.type = Type;
         this.brand = Brand;
@@ -16,11 +16,12 @@ public class Campers {
         this.millage = Millage;
 
     }
-    public int getCamperPlate() {
+
+    public String getCamperPlate() {
         return camperPlate;
     }
 
-    public void setCamperPlate(Integer camperPlate) {
+    public void setCamperPlate(String camperPlate) {
         this.camperPlate = camperPlate;
     }
 
@@ -48,11 +49,11 @@ public class Campers {
         this.factoryDate = factoryDate;
     }
 
-    public int getMillage() {
+    public Long getMillage() {
         return millage;
     }
 
-    public void setMillage(Integer millage) {
+    public void setMillage(Long millage) {
         this.millage = millage;
     }
 }

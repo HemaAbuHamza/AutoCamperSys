@@ -2,6 +2,7 @@ package Application;
 
 import DB.DB;
 import Domain.Campers;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,10 +19,14 @@ import javafx.fxml.FXML;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Controller {
+    @FXML
+    Label priceLabel;
     @FXML
     TextArea username;
     @FXML
@@ -36,71 +41,68 @@ public class Controller {
     @FXML TextArea drNum;
     @FXML TextArea pass;
     @FXML
-    static TextField startWeek;
+    TextField startWeek;
     @FXML
-    static TextField endWeek;
+    TextField endWeek;
     @FXML
-    static MenuButton camperClass;
+    MenuButton camperClass = new MenuButton();
     @FXML
-    MenuItem setBasic = new MenuItem("Basic");
+    MenuButton Insurance = new MenuButton();
+    String insuranceType = "Basic";
+    String setBasic = "Basic";
+    String setSuperCoverPlus = "Super cover plus";
+    String setStandard = "Standard";
+    String setLuxury = "Luxury";
     @FXML
-    MenuItem setStandard = new MenuItem("Standard");
+    TableView searchTable = new TableView();
     @FXML
-    MenuItem setLuxury = new MenuItem("Luxury");
+    TableColumn<Campers,String> typeCol = new TableColumn<>();
     @FXML
-    TableView searchTable;
+    TableColumn<Campers,String> brandCol = new TableColumn<>();
     @FXML
-    TableColumn<Campers,String> typeCol;
+    TableColumn<Campers, Date> dateCol = new TableColumn<>();
     @FXML
-    TableColumn<Campers,String> brandCol;
-    @FXML
-    TableColumn<Campers, Date> dateCol;
-    @FXML
-    TableColumn<Campers,Integer> millageCol;
-
+    TableColumn<Campers,Long> millageCol = new TableColumn<>();
+    LocalDate localDate = LocalDate.now();
+    public String classType;
     public int userID;
-
-    public static ArrayList<Campers> getCampers(Integer fldCamperPlate, String Type, String Brand, String FactoryDate, Integer Millage) {
+    public double camperPrice = 0;
+    public double insurancePrice = 0;
+    public double totalPrice = 0;
+    public static ArrayList<Campers> getCampers(Integer StartWeek, Integer EndWeek, String CamperClass) {
         ArrayList<Campers> returnCampers = new ArrayList<>();
-            startWeek.setText(" ");
-            startWeek.getText();
-            endWeek.getText();
-            StringBuilder builder = new StringBuilder();
-            builder.append("select * from tblCampers " + fldCamperPlate + " where fldCamperPlate not in (Select fldCamperPlate from tblCamperStatus where fldWeek not BETWEEN " + startWeek + " and " + endWeek + ") and fldClass = " + camperClass.getText());
 
-            if (fldCamperPlate != null && Type != null && Brand != null && FactoryDate != null && Millage != null) {
-                builder.append("where");
-                if (fldCamperPlate != null) {
-                    builder.append("fldCamperPlate like '%").append(fldCamperPlate).append("%'");
-                }
-                if (Type != null) {
-                    builder.append("fldCamperType like '%").append(Type).append("%'");
-                }
-                if (Brand != null) {
-                    builder.append("fldBrand like '%").append(Brand).append("%'");
-                }
-                if (FactoryDate != null) {
-                    builder.append("fldFactoryDate like '%").append(FactoryDate).append("%'");
-                }
-                if (Millage != null) {
-                    builder.append("fldFactoryMillage like '%").append(Millage).append("%'");
-                }
-                builder.delete(builder.length() - 5, builder.length() - 1);
-            }
-            ArrayList<Object[]> camperQuery = DB.select(builder.toString());
-            for (Object[] objects : camperQuery) {
-                if (returnCampers == null) {
-                    int camperPlate = (int) objects[0];
-                    String camperType = (String) objects[1];
-                    String camperBrand = (String) objects[2];
-                    Date camperDate = (Date) objects[3];
-                    int millage = (int) objects[4];
+        try {
+            String query = ("select * from tblCampers where fldCamperPlate not in (Select fldCamperPlate from tblCamperStatus where fldWeek BETWEEN " + StartWeek + " and " + EndWeek + ") and fldClass = '" + CamperClass +"'");
 
-                }
-            }
 
+            ArrayList<Object[]> camperQuery = DB.select(query);
+
+                for (Object[] objects : camperQuery) {
+                        String camperPlate = (String) objects[0];
+                        String camperType = (String) objects[1];
+                        String camperBrand = (String) objects[2];
+                        Date camperDate = (Date) objects[3];
+                        Long millage = (Long) objects[4];
+
+                    Campers campers = new Campers(camperPlate,camperType,camperBrand,camperDate,millage);
+
+                    returnCampers.add(campers);
+                }
+
+
+
+
+
+            } catch (NullPointerException e) {
+            e.printStackTrace();
+
+
+        }
         return returnCampers;
+
     }
+
     public boolean checkLogin (boolean doneLogin) {
 
         try {
@@ -207,28 +209,34 @@ public class Controller {
         }
     }
 
-    public void initialize() {
-
-            ArrayList<Campers> camperList = new ArrayList<Campers>(getCampers(null, null, null, null, null));
-            ObservableList<Campers> campers = FXCollections.observableArrayList(camperList);
-            typeCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType()));
-            brandCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getBrand()));
-            dateCol.setCellValueFactory(param -> new SimpleObjectProperty(param.getValue().getFactoryDate()));
-            millageCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getMillage()));
-            searchTable.getColumns().setAll(typeCol, brandCol, dateCol, millageCol);
-
-
-    }
+    ArrayList<String> CamperPlate = new ArrayList();
     public void handleSearch (ActionEvent actionEvent){
+        Campers camper;
+        System.out.println(startWeek.getText() + " " + endWeek.getText());
+        Integer startWeekToInt = Integer.parseInt(startWeek.getText());
+        Integer endWeekToInt = Integer.parseInt(endWeek.getText());
+        ObservableList<Campers> campers = FXCollections.observableArrayList(getCampers(startWeekToInt,endWeekToInt,camperClass.getText()) );
 
+        for (Campers camperLines: campers) {
+            CamperPlate.add(camperLines.getCamperPlate());
+        }
 
+        searchTable.setItems(campers);
 
-
-
+        typeCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType()));
+        brandCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getBrand()));
+        dateCol.setCellValueFactory(param -> new SimpleObjectProperty(param.getValue().getFactoryDate()));
+        millageCol.setCellValueFactory(param -> new SimpleObjectProperty<>(param.getValue().getMillage()));
+        searchTable.getColumns().setAll(typeCol, brandCol, dateCol, millageCol);
 
     }
-
+    public String camperPlates;
     public void handleSelect(ActionEvent event) {
+         camperPlates = CamperPlate.get((searchTable.getSelectionModel().getSelectedIndex()));
+        System.out.println(camperPlates);
+        calculatePrice();
+
+
     }
 
     public void handleClass(ActionEvent actionEvent) {
@@ -236,23 +244,73 @@ public class Controller {
         }
 
     public void handleInsurance(ActionEvent event) {
+
     }
 
     public void handlePay(ActionEvent event) {
+        int reservationIDStoring = 0;
+        int paymentIDStoring = 0;
+
+        String queryInsertReservation = "Insert into tblReservations (fldUserID, fldCamperPlate, fldResDate,fldStartWeek,fldReturnWeek,fldClass,fldInsurance,fldCODriver) values( 1 , '" + camperPlates + "','" + localDate + "' ," + startWeek.getText() + "," + endWeek.getText() + ",'" + classType + "','" + insuranceType +"', null)";
+        String queryGetReservationID = "Select TOP 1 fldReservationID from tblReservations group by fldReservationID order by  fldReservationID desc";
+        String queryPaymentReservationID = "insert into tblPayments values("+ reservationIDStoring+ ",'" + localDate + "' ," + totalPrice + "," + (totalPrice-insurancePrice) + " , 1)";
+        String queryGetPaymentID = "Select TOP 1 fldPaymentID from tblReservations group by fldPaymentID order by  fldPaymentID desc";
+        String queryCreateFeesOnPayement ="insert into tblFees values(" +paymentIDStoring +",'" + localDate + "', 'Insurance' , " + insurancePrice+ ")";
+        String queryCamperStatus;
+
+
+        DB.execute(queryInsertReservation);
+        ArrayList<Object[]> selectQuery = DB.select(queryGetReservationID);
+        int selectQueryToInt = selectQuery.;
+        DB.execute(queryPaymentReservationID);
+        paymentIDStoring = Integer.parseInt(String.valueOf(DB.select(queryGetPaymentID)));
+        DB.execute(queryCreateFeesOnPayement);
+
+        for (int RentedWeek =Integer.parseInt(startWeek.getText()) ; RentedWeek < Integer.parseInt(endWeek.getText()); RentedWeek++) {
+            queryCamperStatus = "INSERT INTO tblCamperStatus values('" + CamperPlate + "', " + RentedWeek + ", 'Rented out')";
+            DB.execute(queryCamperStatus);
+        }
+    }
+
+    public void calculatePrice(){
+        totalPrice = (camperPrice*(Integer.parseInt(endWeek.getText())-Integer.parseInt(startWeek.getText()))) + insurancePrice;
+        priceLabel.setText(String.valueOf(totalPrice));
     }
 
     public void HandleBasic(ActionEvent event) {
-        camperClass.setText(setBasic.getText());
+        camperClass.setText(setBasic);
+        classType = setBasic;
+        camperPrice = 200;
+        calculatePrice();
     }
 
     public void HandleStandard(ActionEvent event) {
-        camperClass.setText(setStandard.getText());
+        camperClass.setText(setStandard);
+        classType = setStandard;
+        camperPrice = 400;
+        calculatePrice();
     }
 
     public void HandleLuxury(ActionEvent event) {
-        camperClass.setText(setLuxury.getText());
+        camperClass.setText(setLuxury);
+        classType = setLuxury;
+        camperPrice = 600;
+        calculatePrice();
     }
 
+    public void HandleBasicInsurance(ActionEvent event) {
+        Insurance.setText(setBasic);
+        insurancePrice = 50;
+        calculatePrice();
+        insuranceType = "Basic";
+    }
+
+    public void HandleExpensiveInsurance(ActionEvent event) {
+        Insurance.setText(setSuperCoverPlus);
+        insurancePrice = 100;
+        calculatePrice();
+        insuranceType = "SCP";
+    }
 }
 
     /*
