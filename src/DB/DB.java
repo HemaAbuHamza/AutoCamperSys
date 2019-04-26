@@ -1,8 +1,5 @@
 package DB;
 
-import javafx.application.Application;
-import javafx.collections.FXCollections;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,45 +18,6 @@ public class DB {
     private static PreparedStatement ps;
     private static ResultSet rs;
 
-    public static void connectDB(String sqlStatment , String yourSelect ,String Search) {
-    /*
-        try{
-        // (1) load the driver into memory
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-
-        // (2) establish Connection
-        Connection con= DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=dbCampersRental","sa","123456");
-
-        // (3) create statement
-        Statement stmt = con.createStatement();
-
-        // (4) execute SQL statement
-        ResultSet rs = stmt.executeQuery(sqlStatment);
-
-        while (rs.next()){
-            String name = rs.getString(yourSelect);
-            //System.out.println(name);
-            if (name.equals(Search)){
-                System.out.println("found it = " + name);
-            }
-        }
-
-        // (5) close the statement & connection
-        rs.close();
-        stmt.close();
-        con.close();
-
-        // (6) Done
-        System.out.println( "Execute Done ");
-        }
-
-        catch(Exception e){
-            e.printStackTrace();
-            }
-    */
-    }    private DB(){
-
-    }
     static {
         Properties props = new Properties();
         String fileName = "src/DB/db.properties";
@@ -71,28 +29,30 @@ public class DB {
             databaseName = props.getProperty("databaseName");
             userName = props.getProperty("userName", "sa");
             password = props.getProperty("password");
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //Step 2
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
     }
 
+    /**
+     * Method called upon whenever a SELECT statements is sent to our DB
+     *
+     * @return returns ArrayList<Object[]> so we could easily store entire table and access each value
+     */
     public static ArrayList<Object[]> select(String statement) {
         conn = null;
         ps = null;
         ArrayList<Object[]> returnArrayList = new ArrayList<>();
         try {
-            //Step 3 open connection
             connect();
-            //Step 4 Execute query
             ps = conn.prepareStatement(statement);
             rs = ps.executeQuery();
             Integer noOfColumns = rs.getMetaData().getColumnCount();
-            //Structuring return data
-            while (rs.next()){
+            while (rs.next()) {
                 Object[] tempArray = new Object[noOfColumns];
                 for (int i = 0; i < tempArray.length; i++) {
-                    tempArray[i] = rs.getObject(i+1);
+                    tempArray[i] = rs.getObject(i + 1);
                 }
                 returnArrayList.add(tempArray);
             }
@@ -103,43 +63,53 @@ public class DB {
         }
         return returnArrayList;
     }
-    public static boolean execute(String statement){
+
+    /**
+     * Method called upon whenever a non-SELECT statement is sent to our DB
+     *
+     */
+    public static boolean execute(String statement) {
         conn = null;
         ps = null;
         try {
-            //Step 3 open connection
             connect();
-            //Step 4 Execute query
             ps = conn.prepareStatement(statement);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }finally {
+        } finally {
             cleanUp();
         }
         return true;
     }
 
-    private static void connect(){
+    /**
+     * method that extablishes a connection between our app and DB
+     */
+    private static void connect() {
         try {
-            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:"+port+";databaseName="+databaseName, userName, password);
+            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:" + port + ";databaseName=" + databaseName, userName, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    private static void cleanUp(){
-        try{
-            if (ps != null){
+
+    /**
+     * Method that makes sure that no connections are kept open
+     */
+    private static void cleanUp() {
+        try {
+            if (ps != null) {
                 ps.close();
             }
-            if(conn != null){
+            if (conn != null) {
                 conn.close();
             }
-            if (rs != null){
+            if (rs != null) {
                 rs.close();
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

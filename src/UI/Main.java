@@ -1,14 +1,10 @@
 package UI;
 
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-//Calling other packages
-import DB.DB;
-import Domain.Methods;
+        import javafx.application.Application;
+        import javafx.fxml.FXMLLoader;
+        import javafx.scene.Parent;
+        import javafx.scene.Scene;
+        import javafx.stage.Stage;
 
 
 public class Main extends Application {
@@ -18,21 +14,9 @@ public class Main extends Application {
         primaryStage.setTitle("Auto Camper System");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-        //just for test3
     }
 
     public static void main(String[] args) {
-        //Calling Domain package
-        //Methods test = new Methods();
-        //test.testMethod();
-
-        //Calling DB package
-        //DB selectEmail = new DB();
-        //selectEmail.connectDB("Select * from tblUsers","fldEmail","nils@easv.dk                  ");
-
-        //DB selectPassword = new DB();
-        //selectPassword.connectDB("Select * from tblUsers" , "fldPassHash");
-
         launch(args);
     }
 }

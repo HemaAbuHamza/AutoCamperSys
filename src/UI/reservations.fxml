@@ -38,7 +38,7 @@
             <Button fx:id="Search" layoutX="31.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleSearch" prefHeight="30.0" prefWidth="100.0" text="Search" />
             <Label layoutX="50.0" layoutY="108.0" text="Search for Avaliable Campers" />
             <Button fx:id="Select" layoutX="306.0" layoutY="325.0" mnemonicParsing="false" onAction="#handleSelect" prefHeight="30.0" prefWidth="100.0" text="Select" />
-            <MenuButton fx:id="camperClass" layoutX="283.0" layoutY="149.0" mnemonicParsing="false" onAction="#handleClass" text="Select Class">
+            <MenuButton fx:id="camperClass" layoutX="283.0" layoutY="149.0" mnemonicParsing="false" text="Select Class">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#HandleBasic" text="Basic" />
                   <MenuItem mnemonicParsing="false" onAction="#HandleStandard" text="Standard" />
@@ -46,7 +46,7 @@
                </items>
             </MenuButton>
             <Label layoutX="35.0" layoutY="406.0" text="Select insurance" />
-            <MenuButton fx:id="Insurance" layoutX="36.0" layoutY="440.0" mnemonicParsing="false" onAction="#handleInsurance" text="insurance">
+            <MenuButton fx:id="Insurance" layoutX="36.0" layoutY="440.0" mnemonicParsing="false" text="insurance">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#HandleBasicInsurance" text="Basic" />
                   <MenuItem mnemonicParsing="false" onAction="#HandleExpensiveInsurance" text="superCoverPlus" />
